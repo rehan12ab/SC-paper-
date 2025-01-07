@@ -1,4 +1,56 @@
+# Before Refactoring
+```csharp
+using System; 
+using System.Collections.Generic; 
+ 
+namespace classes 
+{ 
+    public class Program 
+    { 
+        public decimal Amount = 10000; 
+        public DateTime Date DateTme.Now(); 
+        public string Notes = “”;  
+        public string Data= “”; 
+        public List<Transaction> allTransactions = new List<Transaction>(); 
+        public int accountNumberSeed = 1234567890; 
+        public decimal Balance = 213123; 
+        public string Number = “2222”; 
+        public string Owner = “Ali”; 
+        public char op = Convert.ToChar(Console.ReadLine()); 
+        switch(op){ 
+                case "a": 
+                    Number = accountNumberSeed.ToString(); 
+                    accountNumberSeed++; 
+                    Owner = name; 
+ 
+                    break; 
+ 
+                case "b": 
+                    Number = accountNumberSeed.ToString(); 
+                    accountNumberSeed++; 
+                    Owner = name; 
+                    Balance = Balance + amount; 
+                    allTransactions.Add(deposit); 
+                    break; 
+ 
+                case "c": 
+                    Number = accountNumberSeed.ToString(); 
+                    accountNumberSeed++; 
+                    Owner = name; 
+                    Balance = Balance - amount; 
+                    allTransactions.Add(withdraw); 
+                    break; 
+ 
+                               default: 
+                    break; 
+            } 
+ 
+} 
+ 
+} 
+```
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Refactored BankAccount Class
 
 ## Code Explanation
@@ -10,6 +62,7 @@
 3. **Transaction Handling**: Introduced a `Transaction` class to better manage transactions.
 4. **Improved Readability**: Cleaned up hard-coded values and made the code more reusable and extendable.
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ### Refactored Code:
 
 ```csharp
@@ -129,4 +182,30 @@ namespace BankApp
         }
     }
 }
+
+```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Key Refactoring Improvements
+
+## BankAccount Class:
+1. **Encapsulation**: 
+   - `Balance`, `AccountNumber`, and `Owner` are now private fields with public properties. This means that these fields are hidden from the outside, and access is provided through methods or properties to ensure better control over the data.
+   
+2. **Deposit() and Withdraw() Methods**: 
+   - These methods ensure valid operations and modify the account balance. The `Deposit()` method adds money to the balance, while the `Withdraw()` method ensures that the withdrawal doesn't result in a negative balance.
+
+## Transaction Class:
+- A `Transaction` class has been introduced to track individual transactions (deposit and withdrawal). This makes the code more modular and easier to extend in the future. Each transaction stores its type (deposit or withdrawal), amount, and date.
+
+## Error Handling:
+- Exception handling ensures proper validation of inputs and raises appropriate errors for invalid operations. For example, if the withdrawal amount is greater than the balance, an exception is thrown, preventing the operation from completing and ensuring the system behaves as expected.
+
+## Use of Enums:
+- The `TransactionType` enum helps distinguish between deposit and withdrawal transactions for better clarity. It makes the code more readable and self-explanatory, as we use meaningful names instead of arbitrary values for transaction types.
+
+## User Interaction:
+- The `Program` class handles user input and interaction with the bank account. The `BankAccount` class is responsible for all the operations related to the account itself (like deposits, withdrawals, and balance management). This separation ensures that the logic for account management is independent of user input, improving the overall maintainability of the code.
+
+
 
